@@ -95,6 +95,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 			if (currentState == MENU) {
 				startGame();
@@ -126,11 +132,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 			    objectManager.addProjectile(rocketship.getProjectile());
 			}
 		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		
 		
 	}
 
