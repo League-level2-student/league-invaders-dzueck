@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
     Timer frameDraw;
     Rocketship rocketship = new Rocketship(250,700, 50, 50);
     ObjectManager objectManager = new ObjectManager(rocketship);
+    Timer alienSpawn;
     
     GamePanel(){
     	titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -60,13 +62,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.drawString("Press SPACE for instructions", 100, LeagueInvaders.HEIGHT/2 + 50);
 	}
 	void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+		try {
+            g.drawImage(ImageIO.read(this.getClass().getResourceAsStream("space.png")), 0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
+        } catch (Exception e) {
+        	g.setColor(Color.BLACK);
+			g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+        }
 		objectManager.draw(g);
 	}
 	void drawEndState(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+	}
+	void startGame() {
+		alienSpawn = new Timer(1000, objectManager);
+		alienSpawn.restart();
 	}
 
 	@Override
@@ -85,13 +95,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+			if (currentState == MENU) {
+				startGame();
+			}
 		    if (currentState == END) {
 		        currentState = MENU;
 		    } else {
@@ -115,7 +122,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 			    System.out.println("RIGHT");
 			    rocketship.right();
 			}
+			if (e.getKeyCode()==KeyEvent.VK_SPACE) {
+			    objectManager.addProjectile(rocketship.getProjectile());
+			}
 		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
 		
 	}
 
