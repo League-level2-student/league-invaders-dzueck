@@ -19,6 +19,7 @@ public class Alien extends GameObject {
 	}
 	void update() {
 		y += speed;
+		super.update();
 	}
 	void draw(Graphics g) {
 		if (gotImage) {
@@ -27,6 +28,8 @@ public class Alien extends GameObject {
 			g.setColor(Color.BLUE);
 			g.fillRect(x, y, width, height);
 		}
+		
+		
 	}
 	void loadImage(String imageFile) {
 	    if (needImage) {

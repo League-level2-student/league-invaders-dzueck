@@ -60,14 +60,17 @@ public class Rocketship extends GameObject{
 			x = LeagueInvaders.WIDTH - width;
 		}
 	}
+	void update() {
+		super.update();
+	}
 	void loadImage(String imageFile) {
 	    if (needImage) {
 	        try {
 	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
 		    gotImage = true;
-		    System.out.println("succses");
+		   
 	        } catch (Exception e) {
-	            System.out.println("failure");
+	           
 	        }
 	        needImage = false;
 	    }

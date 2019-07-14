@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
     Timer alienSpawn;
     
     GamePanel(){
-    	titleFont = new Font("Arial", Font.PLAIN, 48);
+    	titleFont = new Font("Arial", Font.PLAIN, 46);
     	normalFont = new Font("Arial", Font.PLAIN, 20);
     	frameDraw = new Timer(1000/60,this);
     	frameDraw.start();
@@ -45,7 +45,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		
 	}
 	void updateGameState() {
+		if(rocketship.isActive == false) {
+			currentState = END;
+		}
 		objectManager.update();
+		
 	}
 	void updateEndState() {
 		
@@ -55,7 +59,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("LEAGUE INVADERSÂ©", 5, 100);
+		g.drawString("LEAGUE INVADERS©", 5, 100);
 		g.setFont(normalFont);
 		g.setColor(Color.YELLOW);
 		g.drawString("Press ENTER to start", 150, LeagueInvaders.HEIGHT/2 - 50);
@@ -68,6 +72,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
         	g.setColor(Color.BLACK);
 			g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
         }
+		g.setFont(normalFont);
+		g.setColor(Color.YELLOW);
+		g.drawString("Score: " + objectManager.getScore(), 5, 40);
 		objectManager.draw(g);
 	}
 	void drawEndState(Graphics g) {
@@ -107,25 +114,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 			}
 		    if (currentState == END) {
 		        currentState = MENU;
+		        rocketship = new Rocketship(250,700, 50, 50);
+		        objectManager = new ObjectManager(rocketship);
 		    } else {
 		        currentState++;
 		    }
 		} 
 		if (currentState == GAME) {
 			if (e.getKeyCode()==KeyEvent.VK_UP) {
-			    System.out.println("UP");
+			    
 			    rocketship.up();
 			}
 			if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			    System.out.println("DOWN");
+			
 			    rocketship.down();
 			}
 			if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			    System.out.println("LEFT");
+			  
 			    rocketship.left();
 			}
 			if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-			    System.out.println("RIGHT");
+			 
 			    rocketship.right();
 			}
 			if (e.getKeyCode()==KeyEvent.VK_SPACE) {
